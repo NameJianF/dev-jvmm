@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Premain-Class: live.itrip.jvmm.agent.AgentBootStrap
+Implementation-Title: jvmm-agent
+Implementation-Version: 1.0
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+

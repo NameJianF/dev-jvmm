@@ -1,0 +1,38 @@
+package live.itrip.jvmm.agent.server.enums;
+
+import java.util.Locale;
+
+/**
+ * <p>
+ * Description: TODO
+ * </p>
+ * <p>
+ * Created in 16:59 2022/9/7
+ *
+ * @author fengjianfeng
+ */
+public enum ServerType {
+    none,
+    /**
+     * 默认运行类型，tcp长连接，并对通讯数据加密
+     */
+    jvmm,
+    /**
+     * http server服务
+     */
+    http,
+    /**
+     * 哨兵模式，定向采集数据并推送给订阅者
+     */
+    sentinel;
+
+    public static ServerType of(String t) {
+        t = t.toLowerCase(Locale.ROOT);
+        for (ServerType type : values()) {
+            if (type.name().equals(t)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Server type '" + t + "' is not exist");
+    }
+}

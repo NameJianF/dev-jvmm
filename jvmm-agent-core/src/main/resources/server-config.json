@@ -1,0 +1,88 @@
+{
+    "name": "jvmm_server",
+    "server": {
+        "type": "jvmm,http",
+        "jvmm": {
+            "port": 5010,
+            "adaptivePort": true,
+            "adaptivePortLimit": 5,
+            "auth": {
+                "enable": false,
+                "username": 123456,
+                "password": 123456
+            },
+            "maxChunkSize": 52428800
+        },
+        "http": {
+            "port": 8080,
+            "adaptivePort": true,
+            "adaptivePortLimit": 5,
+            "auth": {
+                "enable": true,
+                "username": 123456,
+                "password": 123456
+            },
+            "maxChunkSize": 52428800,
+            "ssl": {
+                "enable": false,
+                "certCa": "./config/cert-ca.pem",
+                "cert": "./config/cert.pem",
+                "certKey": "./config/cert.key",
+                "keyPassword": 123456,
+                "openssl": true
+            }
+        },
+        "sentinel": [
+            {
+                "subscribers": [
+                    {
+                        "url": "http://127.0.0.1:9999/monitor/subscriber",
+                        "auth": {
+                            "enable": true,
+                            "username": 123456,
+                            "password": 123456
+                        }
+                    },
+                    {
+                        "url": "http://monitor.example.com:9999/monitor/subscriber"
+                    }
+                ],
+                "interval": 15,
+                "count": 20,
+                "tasks": [
+                    "process",
+                    "disk",
+                    "disk_io",
+                    "cpu"
+                ]
+            },
+            {
+                "subscribers": [
+                    {
+                        "url": "http://monitor.example.com:9999/monitor/subscriber"
+                    }
+                ],
+                "interval": 15,
+                "count": -1,
+                "tasks": [
+                    "jvm_gc",
+                    "jvm_memory",
+                    "jvm_memory_pool",
+                    "jvm_memory_manager",
+                    "jvm_thread",
+                    "jvm_classloader",
+                    "jvm_classloading"
+                ]
+            }
+        ]
+    },
+    "log": {
+        "level": "INFO",
+        "file": "logs",
+        "fileName": "jvmm",
+        "fileLimitSize": 10,
+        "pattern": "%ansi{%date{yyyy-MM-dd HH:mm:ss}}{36} %ansi{%level}{ERROR=31,INFO=32,WARN=33,DEBUG=34,TRACE=35} %ansi{%class}{38;5;14} : %msg",
+        "printers": "std,file"
+    },
+    "workThread": 2
+}
