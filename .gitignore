@@ -1,0 +1,4 @@
+/.idea/
+/jvmm-agent-bootstrap/target/
+/jvmm-agent-core/target/
+/jvmm-agent-demo/target/
