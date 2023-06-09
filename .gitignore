@@ -2,3 +2,7 @@
 /jvmm-agent-bootstrap/target/
 /jvmm-agent-core/target/
 /jvmm-agent-demo/target/
+/jvmm-agent-bootstrap/jvmm-agent-bootstrap.iml
+/jvmm-agent-core/jvmm-agent-core.iml
+/jvmm-agent-demo/jvmm-agent-demo.iml
+/jvmm-root.iml

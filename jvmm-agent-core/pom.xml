@@ -20,10 +20,21 @@
 
     <build>
         <!-- 产生的构件的文件名，默认值是${artifactId}-${version}。 -->
-        <finalName>jvmm-agent-core</finalName>
+        <finalName>jvmm-agent-core-${version}</finalName>
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>live.itrip</groupId>
+            <artifactId>jvmm-agent-bootstrap</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>live.itrip</groupId>
+            <artifactId>jvmm-agent-spy</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.sun</groupId>
@@ -41,16 +52,40 @@
         </dependency>
 
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>29.0-jre</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>6.4.2</version>
         </dependency>
+
 
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.93.Final</version>
         </dependency>
+
+        <!-- asm -->
+<!--        <dependency>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <artifactId>asm</artifactId>-->
+<!--            <version>7.2</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <artifactId>asm-commons</artifactId>-->
+<!--            <version>7.2</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.ow2.asm</groupId>-->
+<!--            <artifactId>asm-util</artifactId>-->
+<!--            <version>7.2</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

@@ -12,6 +12,7 @@
         <module>jvmm-agent-bootstrap</module>
         <module>jvmm-agent-core</module>
         <module>jvmm-agent-demo</module>
+        <module>jvmm-agent-spy</module>
     </modules>
 
     <properties>
