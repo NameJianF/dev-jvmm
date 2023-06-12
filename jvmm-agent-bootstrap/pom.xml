@@ -34,7 +34,7 @@
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Premain-Class>live.itrip.jvmm.agent.AgentBootStrap</Premain-Class>
+                            <Premain-Class>live.itrip.jvmm.agent.AgentLauncher</Premain-Class>
                             <Can-Set-Native-Method-Prefix>false</Can-Set-Native-Method-Prefix>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>

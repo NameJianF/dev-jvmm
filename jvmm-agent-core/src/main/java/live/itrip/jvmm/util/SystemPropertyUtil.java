@@ -1,10 +1,12 @@
 package live.itrip.jvmm.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import live.itrip.jvmm.logging.AgentLogFactory;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -17,7 +19,7 @@ import java.security.PrivilegedAction;
  */
 public class SystemPropertyUtil {
     private static Logger logger() {
-        return LoggerFactory.getLogger(SystemPropertyUtil.class);
+        return AgentLogFactory.getLogger(SystemPropertyUtil.class);
     }
 
     public static boolean contains(String key) {
@@ -44,7 +46,7 @@ public class SystemPropertyUtil {
                 value = AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty(key));
             }
         } catch (SecurityException e) {
-            logger().warn("Unable to retrieve a system property '{}'; default values will be used.", key, e);
+            logger().log(Level.SEVERE, "Unable to retrieve a system property '" + key + "'; default values will be used.", e);
         }
 
         if (value == null) {
@@ -73,10 +75,10 @@ public class SystemPropertyUtil {
             return false;
         }
 
-        logger().warn(
-                "Unable to parse the boolean system property '{}':{} - using the default value: {}",
-                key, value, def
-        );
+//        logger().warn(
+//                "Unable to parse the boolean system property '{}':{} - using the default value: {}",
+//                key, value, def
+//        );
 
         return def;
     }
@@ -94,10 +96,10 @@ public class SystemPropertyUtil {
             // Ignore
         }
 
-        logger().warn(
-                "Unable to parse the integer system property '{}':{} - using the default value: {}",
-                key, value, def
-        );
+//        logger().warn(
+//                "Unable to parse the integer system property '{}':{} - using the default value: {}",
+//                key, value, def
+//        );
 
         return def;
     }
@@ -115,10 +117,10 @@ public class SystemPropertyUtil {
             // Ignore
         }
 
-        logger().warn(
-                "Unable to parse the long integer system property '{}':{} - using the default value: {}",
-                key, value, def
-        );
+//        logger().warn(
+//                "Unable to parse the long integer system property '{}':{} - using the default value: {}",
+//                key, value, def
+//        );
 
         return def;
     }

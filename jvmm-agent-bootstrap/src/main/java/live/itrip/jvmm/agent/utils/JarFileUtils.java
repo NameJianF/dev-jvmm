@@ -17,13 +17,13 @@ public class JarFileUtils {
     private static final Logger LOGGER = Logger.getLogger(JarFileUtils.class.getCanonicalName());
     private static final String LIB_FOLDER = File.separator + "lib";
     private static final String[] TARGET_LIBS = new String[]{"gson-2.8.7.jar", "guava-29.0-jre.jar", "javassist-3.27.0-GA.jar"};
-    private static final String AGENT_CLIENT_NAME = "cube-agent-client";
-    private static final String AGENT_CORE_NAME = "cube-agent-core";
-    private static final String AGENT_SPY_NAME = "cube-agent-spy";
+    private static final String AGENT_CLIENT_NAME = "jvmm-agent";
+    private static final String AGENT_CORE_NAME = "jvmm-agent-core";
+    private static final String AGENT_SPY_NAME = "jvmm-agent-spy";
     private static final String ENV_TEST = "test";
 
     /**
-     * -javaagent:/Users/fengjianfeng/Documents/project/mock-trace/cube-agent/cube-agent-core/target/cubeAgent-jar-with-dependencies.jar
+     * -javaagent:/Users/fengjianfeng/Documents/project/mock-trace/jvmm-agent/jvmm-agent-core/target/jvmmAgent-jar-with-dependencies.jar
      *
      * @return String
      */

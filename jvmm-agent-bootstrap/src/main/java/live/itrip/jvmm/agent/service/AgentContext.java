@@ -40,6 +40,12 @@ public interface AgentContext {
      * @param token token
      */
     void setToken(String token);
+    /**
+     * set env
+     *
+     * @param env env
+     */
+    void setEnv(String env);
 
     /**
      * 获取注册中心IP地址

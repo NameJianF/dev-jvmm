@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
-        <finalName>cube-agent-spy-${version}</finalName>
+        <finalName>jvmm-agent-spy-${version}</finalName>
         <!--        <plugins>-->
         <!--            <plugin>-->
         <!--                <groupId>org.apache.maven.plugins</groupId>-->

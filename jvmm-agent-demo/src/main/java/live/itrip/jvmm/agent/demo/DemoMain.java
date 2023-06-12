@@ -8,7 +8,7 @@ package live.itrip.jvmm.agent.demo;
  */
 public class DemoMain {
 
-    // -javaagent:/Users/fengjianfeng/Documents/release_new/jdd-mock-agent/cube-agent-client-1.0.jar -Xbootclasspath/a:/Users/fengjianfeng/Documents/release_new/jdd-mock-agent/cube-agent-client-1.0.jar -Dcube.app.env=test -Dcube.app.name=jddmock-demo -Dcube.server.address=10.222.76.29:8080
+  // -javaagent:/Users/fengjianfeng/Desktop/jvmm/jvmm-agent-1.0.0.jar -Xbootclasspath/a:/Users/fengjianfeng/Desktop/jvmm/jvmm-agent-1.0.0.jar -Djvmm.app.env=test -Djvmm.app.name=jvmm-demo -Djvmm.server.address=10.222.76.29:8080
     private static String jvmPid = null;
     private static final String AGENT_FILE_PATH = "-javaagent:/Users/fengjianfeng/Documents/test-gateway/cube-agent-client-1.0.jar=jdd-gateway";
     private static final String EXT_JAR = "jar";

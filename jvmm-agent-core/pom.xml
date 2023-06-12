@@ -61,14 +61,20 @@
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>6.4.2</version>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>slf4j-api</artifactId>-->
+<!--                    <groupId>org.slf4j</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
 
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.93.Final</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.netty</groupId>-->
+<!--            <artifactId>netty-all</artifactId>-->
+<!--            <version>4.1.93.Final</version>-->
+<!--        </dependency>-->
 
         <!-- asm -->
 <!--        <dependency>-->

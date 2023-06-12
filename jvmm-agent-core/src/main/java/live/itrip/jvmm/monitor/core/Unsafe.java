@@ -1,8 +1,7 @@
 package live.itrip.jvmm.monitor.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import live.itrip.jvmm.common.exception.ExecutionException;
+import live.itrip.jvmm.logging.AgentLogFactory;
 import live.itrip.jvmm.monitor.core.entity.info.JvmClassLoaderInfo;
 
 import java.lang.reflect.Field;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Description: 此类中的方法是不安全的，无法保证方法是否能一定成功调用，也不能保证调用后会不会对程序造成影响，因此不建议使用者直接调用此类中的方法！
@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public final class Unsafe {
 
-    private static final Logger logger = LoggerFactory.getLogger(Unsafe.class);
+    private static final Logger logger = AgentLogFactory.getLogger(Unsafe.class);
 
     private static Method threadsMethod;
     private static Method findLoadedClassMethod;
@@ -42,7 +42,7 @@ public final class Unsafe {
             threadStatusFiled = Thread.class.getDeclaredField("threadStatus");
             threadStatusFiled.setAccessible(true);
         } catch (Throwable e) {
-            logger.error("Init Unsafe failed: " + e.getMessage(), e);
+            //logger.error("Init Unsafe failed: " + e.getMessage(), e);
         }
     }
 
@@ -55,7 +55,7 @@ public final class Unsafe {
         try {
             return (Thread[]) threadsMethod.invoke(null);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            logger.error("Invoke Unsafe method 'getThreads()' error: " + e.getMessage(), e);
+            //logger.error("Invoke Unsafe method 'getThreads()' error: " + e.getMessage(), e);
             return new Thread[0];
         }
     }

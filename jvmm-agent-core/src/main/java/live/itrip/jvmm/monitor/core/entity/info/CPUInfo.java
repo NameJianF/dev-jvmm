@@ -6,6 +6,7 @@ import live.itrip.jvmm.util.GsonUtils;
 /**
  * description: TODO
  * date 14:36 2023/1/31
+ *
  * @author fengjianfeng
  */
 public class CPUInfo {
@@ -23,13 +24,23 @@ public class CPUInfo {
      */
     private double user;
     /**
-     * IO等待
+     * CPU当前等待率
      */
     private double ioWait;
     /**
-     * 空闲率
+     * CPU当前空闲率
      */
     private double idle;
+
+    /**
+     * CPU总的使用率
+     */
+    private double toTal;
+
+    /**
+     * CPU型号信息
+     */
+    private String cpuModel;
 
     private CPUInfo() {
     }
@@ -41,6 +52,22 @@ public class CPUInfo {
     @Override
     public String toString() {
         return GsonUtils.toJson(this);
+    }
+
+    public double getToTal() {
+        return toTal;
+    }
+
+    public void setToTal(double toTal) {
+        this.toTal = toTal;
+    }
+
+    public String getCpuModel() {
+        return cpuModel;
+    }
+
+    public void setCpuModel(String cpuModel) {
+        this.cpuModel = cpuModel;
     }
 
     public int getCpuNum() {

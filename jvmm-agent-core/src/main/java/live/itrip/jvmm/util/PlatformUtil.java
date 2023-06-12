@@ -1,8 +1,8 @@
 package live.itrip.jvmm.util;
 
 import live.itrip.jvmm.common.PlatformEnum;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import live.itrip.jvmm.logging.AgentLogFactory;
+
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Locale;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import java.util.concurrent.RejectedExecutionException;
  */
 public class PlatformUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(PlatformUtil.class);
+    private static final Logger log = AgentLogFactory.getLogger(PlatformUtil.class);
 
     private static final String OPERATING_SYSTEM_NAME = SystemPropertyUtil.get("os.name").toLowerCase(Locale.ENGLISH);
     private static final String OPERATING_SYSTEM_ARCH = SystemPropertyUtil.get("os.arch").toLowerCase(Locale.ENGLISH);
@@ -181,7 +182,7 @@ public class PlatformUtil {
                 return false;
             }
         } catch (RejectedExecutionException e) {
-            log.error(e.getMessage(), e);
+            // log.error(e.getMessage(), e);
             SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", port);
             try (Socket socket = new Socket()) {
                 socket.connect(socketAddress, 50);

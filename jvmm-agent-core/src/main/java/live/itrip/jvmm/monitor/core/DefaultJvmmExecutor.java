@@ -1,11 +1,10 @@
 package live.itrip.jvmm.monitor.core;
 
 import live.itrip.jvmm.agent.utils.StringUtils;
-import live.itrip.jvmm.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import live.itrip.jvmm.util.meta.PairKey;
+import live.itrip.jvmm.logging.AgentLogFactory;
 import live.itrip.jvmm.monitor.core.entity.result.JpsResult;
+import live.itrip.jvmm.util.*;
+import live.itrip.jvmm.util.meta.PairKey;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeoutException;
  */
 class DefaultJvmmExecutor implements JvmmExecutor {
 
-    private static final Logger log = LoggerFactory.getLogger(DefaultJvmmExecutor.class);
+    private static final Logger log = AgentLogFactory.getLogger(DefaultJvmmExecutor.class);
 
     private static final Set<String> ENABLED_TOOL_SCRIPT = CommonUtil.hashSetOf("jps", "jstat", "jmap", "jcmd", "jstack", "jinfo");
 
@@ -44,13 +44,13 @@ class DefaultJvmmExecutor implements JvmmExecutor {
     @Override
     public void setClassLoadingVerbose(boolean verbose) {
         ManagementFactory.getClassLoadingMXBean().setVerbose(verbose);
-        log.info("Jvmm trigger execution of 'setClassLoadingVerbose', param:{}", verbose);
+        //log.info("Jvmm trigger execution of 'setClassLoadingVerbose', param:{}", verbose);
     }
 
     @Override
     public void setMemoryVerbose(boolean verbose) {
         ManagementFactory.getMemoryMXBean().setVerbose(verbose);
-        log.info("Jvmm trigger execution of 'setMemoryVerbose', param:{}", verbose);
+        //log.info("Jvmm trigger execution of 'setMemoryVerbose', param:{}", verbose);
     }
 
     @Override
@@ -60,9 +60,9 @@ class DefaultJvmmExecutor implements JvmmExecutor {
 
         boolean checkValue = mx.isThreadCpuTimeEnabled();
         if (enable != checkValue) {
-            log.error("Could not set threadCpuTimeEnabled to " + enable + ", got " + checkValue + " instead");
+            //log.error("Could not set threadCpuTimeEnabled to " + enable + ", got " + checkValue + " instead");
         } else {
-            log.info("Jvmm trigger execution of 'setThreadCpuTimeEnabled', param:{}", enable);
+           // log.info("Jvmm trigger execution of 'setThreadCpuTimeEnabled', param:{}", enable);
         }
     }
 
@@ -72,9 +72,9 @@ class DefaultJvmmExecutor implements JvmmExecutor {
         mx.setThreadContentionMonitoringEnabled(enable);
         boolean checkValue = mx.isThreadContentionMonitoringEnabled();
         if (enable != checkValue) {
-            log.error("Could not set threadContentionMonitoringEnabled to " + enable + ", got " + checkValue + " instead");
+           // log.error("Could not set threadContentionMonitoringEnabled to " + enable + ", got " + checkValue + " instead");
         } else {
-            log.info("Jvmm trigger execution of 'setThreadContentionMonitoringEnabled', param:{}", enable);
+            //log.info("Jvmm trigger execution of 'setThreadContentionMonitoringEnabled', param:{}", enable);
         }
     }
 
@@ -120,7 +120,7 @@ class DefaultJvmmExecutor implements JvmmExecutor {
         if (process.waitFor() != 0) {
             err.addAll(output);
             String errOutput = CommonUtil.join("\n", err);
-            log.error("Execute command with exit value '{}'. {}. [{}]", process.exitValue(), errOutput, newCmd);
+           // log.error("Execute command with exit value '{}'. {}. [{}]", process.exitValue(), errOutput, newCmd);
             return PairKey.of(err, false);
         } else {
             return PairKey.of(output, true);
@@ -157,7 +157,7 @@ class DefaultJvmmExecutor implements JvmmExecutor {
             }
         } catch (IOException | TimeoutException | InterruptedException e) {
             error = "List java process on localhost failed. " + e.getMessage();
-            log.error(error, e);
+            //log.error(error, e);
         }
         return PairKey.of(resList, error);
     }

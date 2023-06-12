@@ -96,6 +96,7 @@ public final class AgentLauncher {
             ServiceUtils.getAgentContext().setInstrumentation(inst);
             ServiceUtils.getAgentContext().setAppName(AgentArguments.getAppName());
             ServiceUtils.getAgentContext().setToken(AgentArguments.getToken());
+            ServiceUtils.getAgentContext().setEnv(AgentArguments.getEnv());
             ServiceUtils.getAgentContext().setServerAddress(AgentArguments.getServerAddress());
 
             // 上报http server 地址、端口

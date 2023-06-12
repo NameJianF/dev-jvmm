@@ -2,7 +2,6 @@ package live.itrip.jvmm.monitor.core.entity.info;
 
 import live.itrip.jvmm.util.GsonUtils;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

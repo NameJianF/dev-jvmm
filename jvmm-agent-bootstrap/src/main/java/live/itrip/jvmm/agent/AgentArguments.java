@@ -25,15 +25,15 @@ class AgentArguments {
     /**
      * app name
      */
-    private static final String KEY_APP_NAME = "-Dcube.app.name";
+    private static final String KEY_APP_NAME = "-Djvmm.app.name";
     /**
      * agent 部署的环境
      */
-    private static final String KEY_APP_ENV = "-Dcube.app.env";
+    private static final String KEY_APP_ENV = "-Djvmm.app.env";
     /**
      * 注册中心地址IP
      */
-    private static final String KEY_SERVER_ADDRESS = "-Dcube.server.address";
+    private static final String KEY_SERVER_ADDRESS = "-Djvmm.server.address";
 
     /**
      * 解析后的参数 KV

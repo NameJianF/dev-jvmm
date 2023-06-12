@@ -4,7 +4,6 @@ import live.itrip.jvmm.util.GsonUtils;
 import oshi.software.os.InternetProtocolStats.TcpStats;
 import oshi.software.os.InternetProtocolStats.UdpStats;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

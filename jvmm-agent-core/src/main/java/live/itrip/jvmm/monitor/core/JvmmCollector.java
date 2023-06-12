@@ -30,6 +30,12 @@ public interface JvmmCollector {
      * @return {@link SysMemInfo}
      */
     SysMemInfo getSysMem();
+    /**
+     * 获取CPU负载信息，
+     *
+     * @return CPUInfo
+     */
+    CPUInfo getCPU();
 
     /**
      * 获取CPU负载信息，异步执行
@@ -37,6 +43,13 @@ public interface JvmmCollector {
      * @param consumer 计算成功时回调{@link CPUInfo}
      */
     void getCPU(Consumer<CPUInfo> consumer);
+
+    /**
+     * 获取网卡、网络IO信息
+     *
+     * @return NetInfo
+     */
+    NetInfo getNetwork();
 
     /**
      * 获取网卡、网络IO信息，异步执行
@@ -52,6 +65,12 @@ public interface JvmmCollector {
      */
     List<DiskInfo> getDisk();
 
+    /**
+     * 获取所有磁盘读写次数、吞吐量
+     *
+     * @return getDiskIO
+     */
+    List<DiskIOInfo> getDiskIO();
     /**
      * 获取所有磁盘读写次数、吞吐量，异步执行
      *

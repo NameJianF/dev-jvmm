@@ -1,15 +1,14 @@
 package live.itrip.jvmm.monitor.core;
 
-import live.itrip.jvmm.monitor.core.entity.info.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import live.itrip.jvmm.common.exception.ExecutionException;
+import live.itrip.jvmm.logging.AgentLogFactory;
+import live.itrip.jvmm.monitor.core.driver.OSDriver;
+import live.itrip.jvmm.monitor.core.entity.info.*;
+import live.itrip.jvmm.monitor.core.entity.result.LinuxMemResult;
 import live.itrip.jvmm.util.IPUtil;
 import live.itrip.jvmm.util.PidUtil;
 import live.itrip.jvmm.util.PlatformUtil;
 import live.itrip.jvmm.util.SystemPropertyUtil;
-import live.itrip.jvmm.monitor.core.driver.OSDriver;
-import live.itrip.jvmm.monitor.core.entity.result.LinuxMemResult;
 
 import java.lang.management.*;
 import java.lang.reflect.Field;
@@ -21,6 +20,7 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -33,7 +33,7 @@ import java.util.function.Consumer;
  */
 class DefaultJvmmCollector implements JvmmCollector {
 
-    private static final Logger log = LoggerFactory.getLogger(DefaultJvmmCollector.class);
+    private static final Logger log = AgentLogFactory.getLogger(DefaultJvmmCollector.class);
 
     private final WeakHashMap<String, ThreadPoolExecutor> threadPoolCache = new WeakHashMap<>();
 
@@ -70,16 +70,23 @@ class DefaultJvmmCollector implements JvmmCollector {
                 info.setShared(linuxMemoryResult.getShared());
             }
         } catch (Throwable e) {
-            log.warn("Get system dynamic info failed. " + e.getMessage(), e);
+            //log.warn("Get system dynamic info failed. " + e.getMessage(), e);
         }
         return info;
     }
 
     @Override
+    public CPUInfo getCPU() {
+        return OSDriver.get().getCPUInfo();
+    }
+    @Override
     public void getCPU(Consumer<CPUInfo> consumer) {
         OSDriver.get().getCPUInfo(consumer);
     }
-
+    @Override
+    public NetInfo getNetwork() {
+        return OSDriver.get().getNetInfo();
+    }
     @Override
     public void getNetwork(Consumer<NetInfo> consumer) {
         OSDriver.get().getNetInfo(consumer);
@@ -88,6 +95,10 @@ class DefaultJvmmCollector implements JvmmCollector {
     @Override
     public List<DiskInfo> getDisk() {
         return OSDriver.get().getDiskInfo();
+    }
+    @Override
+    public List<DiskIOInfo> getDiskIO() {
+        return OSDriver.get().getDiskIOInfo();
     }
 
     @Override
@@ -257,7 +268,7 @@ class DefaultJvmmCollector implements JvmmCollector {
                 info.increaseStateCount(thread.getState());
             }
         } catch (Exception e) {
-            log.error("Collect thread info failed: " + e.getMessage(), e);
+            //log.error("Collect thread info failed: " + e.getMessage(), e);
         }
         return info;
     }
@@ -409,7 +420,7 @@ class DefaultJvmmCollector implements JvmmCollector {
                     f.setAccessible(false);
                 }
             } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException | ClassCastException e) {
-                log.debug("Invoke getThreadPoolInfo failed: " + e.getMessage(), e);
+                //log.debug("Invoke getThreadPoolInfo failed: " + e.getMessage(), e);
             }
         }
 
@@ -449,7 +460,7 @@ class DefaultJvmmCollector implements JvmmCollector {
                     }
                 }
             } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException | ClassCastException e) {
-                log.debug("Invoke getThreadPoolInfo failed: " + e.getMessage(), e);
+                //log.debug("Invoke getThreadPoolInfo failed: " + e.getMessage(), e);
             }
         }
 

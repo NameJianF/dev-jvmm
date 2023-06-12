@@ -1,19 +1,19 @@
 package live.itrip.jvmm.monitor.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import live.itrip.jvmm.common.exception.ProfilerNotSupportedException;
 import live.itrip.jvmm.common.factory.ExecutorFactory;
-import live.itrip.jvmm.util.meta.ListenableFuture;
+import live.itrip.jvmm.logging.AgentLogFactory;
 import live.itrip.jvmm.monitor.core.entity.profiler.ProfilerAction;
 import live.itrip.jvmm.monitor.core.entity.profiler.ProfilerCommander;
 import live.itrip.jvmm.monitor.core.entity.profiler.ProfilerCounter;
 import live.itrip.jvmm.monitor.core.ext.profiler.AsyncProfiler;
+import live.itrip.jvmm.util.meta.ListenableFuture;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 class DefaultJvmmProfiler implements JvmmProfiler {
 
-    private static final Logger log = LoggerFactory.getLogger(DefaultJvmmProfiler.class);
+    private static final Logger log = AgentLogFactory.getLogger(DefaultJvmmProfiler.class);
 
     /**
      * 默认采样间隔，单位纳秒ns
@@ -40,11 +40,11 @@ class DefaultJvmmProfiler implements JvmmProfiler {
             profiler = AsyncProfiler.getInstance();
         } catch (IllegalStateException e) {
             profiler = null;
-            if (log.isDebugEnabled()) {
-                log.debug(e.getMessage(), e);
-            } else {
-                log.warn(e.getMessage());
-            }
+//            if (log.isDebugEnabled()) {
+//                log.debug(e.getMessage(), e);
+//            } else {
+//                log.warn(e.getMessage());
+//            }
         }
     }
 

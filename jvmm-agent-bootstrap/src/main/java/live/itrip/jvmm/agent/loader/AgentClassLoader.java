@@ -20,8 +20,7 @@ public class AgentClassLoader extends URLClassLoader {
     private static final String LIB_FOLDER = File.separator + "lib";
     private static final String CONF_FOLDER = File.separator + "conf";
 
-    private static final String[] RUNTIME_DEPENDENCY = new String[]{"com.alibaba.dubbo.", "com.jd.jsf.gd."
-            , "com.weibo.api.motan.", "com.jd.jr.jsf.gd.", "cn.sunline.edsp."};
+    private static final String[] RUNTIME_DEPENDENCY = new String[]{"com.alibaba.dubbo.", "com.weibo.api.motan.", "cn.sunline.edsp."};
 
     public AgentClassLoader(String agentPath) {
         super(findJar(agentPath), (ClassLoader.getSystemClassLoader() == null) ? null : ClassLoader.getSystemClassLoader().getParent());
@@ -77,7 +76,7 @@ public class AgentClassLoader extends URLClassLoader {
                     try {
                         url[i] = files[i].toURI().toURL();
                         if (LOGGER.isLoggable(Level.FINE)) {
-                            LOGGER.log(Level.FINE, "cube client class loader load jar url: {0}", new Object[]{url[i]});
+                            LOGGER.log(Level.FINE, "jvmm client class loader load jar url: {0}", new Object[]{url[i]});
                         }
                     } catch (Throwable e) {
                         LOGGER.log(Level.WARNING, e.getMessage(), e);
