@@ -19,7 +19,7 @@
 
     <build>
         <!-- 产生的构件的文件名，默认值是${artifactId}-${version}。 -->
-        <finalName>jvmm-agent-${version}</finalName>
+        <finalName>jvmm-agent-bootstrap</finalName>
 
         <plugins>
             <plugin>
@@ -35,6 +35,7 @@
                         </manifest>
                         <manifestEntries>
                             <Premain-Class>live.itrip.jvmm.agent.AgentLauncher</Premain-Class>
+                            <Agent-Class>live.itrip.jvmm.agent.AgentLauncher</Agent-Class>
                             <Can-Set-Native-Method-Prefix>false</Can-Set-Native-Method-Prefix>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>

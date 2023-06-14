@@ -2,13 +2,10 @@ package live.itrip.jvmm.monitor.controller;
 
 import com.google.common.base.Charsets;
 import com.google.gson.JsonArray;
-import com.google.gson.reflect.TypeToken;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import live.itrip.jvmm.JvmmAgentContext;
-import live.itrip.jvmm.agent.service.AgentContext;
-import live.itrip.jvmm.agent.utils.StringUtils;
 import live.itrip.jvmm.logging.AgentLogFactory;
 import live.itrip.jvmm.monitor.core.JvmmFactory;
 import live.itrip.jvmm.monitor.core.Unsafe;
@@ -19,6 +16,7 @@ import live.itrip.jvmm.server.handler.AbstractCommandHandler;
 import live.itrip.jvmm.util.CodingUtil;
 import live.itrip.jvmm.util.CommonUtil;
 import live.itrip.jvmm.util.GsonUtils;
+import live.itrip.jvmm.util.StringUtils;
 import live.itrip.jvmm.util.meta.PairKey;
 
 import java.io.IOException;
@@ -60,6 +58,7 @@ public class ExecuteController extends AbstractCommandHandler implements HttpHan
      *
      * @param server server
      */
+    @Override
     public void registryPath(HttpServer server) {
         server.createContext(PATH_EXECUTE_GC, this);
         server.createContext(PATH_EXECUTE_SET_CLASSLOADING_VERBOSE, this);
@@ -250,8 +249,7 @@ public class ExecuteController extends AbstractCommandHandler implements HttpHan
     }
 
     public void loadPatch(HttpExchange httpExchange, String requestBody) throws Exception {
-        List<PatchDTO> patchList = GsonUtils.fromJson(requestBody, new TypeToken<List<PatchDTO>>() {
-        }.getType());
+        List<PatchDTO> patchList = GsonUtils.fromJson2List(requestBody);
 
         List<ClassDefinition> definitions = new ArrayList<>(patchList.size());
         List<PatchVO> resp = new ArrayList<>(patchList.size());
@@ -271,7 +269,7 @@ public class ExecuteController extends AbstractCommandHandler implements HttpHan
                 }
             }
         }
-        if (JvmmAgentContext.getContext().redefineClass(definitions.toArray(new ClassDefinition[0]))) {
+        if (JvmmAgentContext.getInstance().redefineClass(definitions.toArray(new ClassDefinition[0]))) {
             // return resp;
             this.sendSucceed(httpExchange, resp);
         }

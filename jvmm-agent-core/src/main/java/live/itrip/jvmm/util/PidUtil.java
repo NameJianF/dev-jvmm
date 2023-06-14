@@ -1,7 +1,5 @@
 package live.itrip.jvmm.util;
 
-import live.itrip.jvmm.agent.utils.StringUtils;
-
 import java.lang.management.ManagementFactory;
 import java.util.List;
 

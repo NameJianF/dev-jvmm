@@ -1,6 +1,6 @@
 package live.itrip.jvmm.common.factory;
 
-import live.itrip.jvmm.agent.utils.StringUtils;
+import live.itrip.jvmm.util.StringUtils;
 import live.itrip.jvmm.util.SystemPropertyUtil;
 
 import java.util.concurrent.ScheduledExecutorService;

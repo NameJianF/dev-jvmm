@@ -1,6 +1,5 @@
 package live.itrip.jvmm.monitor.core;
 
-import live.itrip.jvmm.agent.utils.StringUtils;
 import live.itrip.jvmm.logging.AgentLogFactory;
 import live.itrip.jvmm.monitor.core.entity.result.JpsResult;
 import live.itrip.jvmm.util.*;
@@ -62,7 +61,7 @@ class DefaultJvmmExecutor implements JvmmExecutor {
         if (enable != checkValue) {
             //log.error("Could not set threadCpuTimeEnabled to " + enable + ", got " + checkValue + " instead");
         } else {
-           // log.info("Jvmm trigger execution of 'setThreadCpuTimeEnabled', param:{}", enable);
+            // log.info("Jvmm trigger execution of 'setThreadCpuTimeEnabled', param:{}", enable);
         }
     }
 
@@ -72,7 +71,7 @@ class DefaultJvmmExecutor implements JvmmExecutor {
         mx.setThreadContentionMonitoringEnabled(enable);
         boolean checkValue = mx.isThreadContentionMonitoringEnabled();
         if (enable != checkValue) {
-           // log.error("Could not set threadContentionMonitoringEnabled to " + enable + ", got " + checkValue + " instead");
+            // log.error("Could not set threadContentionMonitoringEnabled to " + enable + ", got " + checkValue + " instead");
         } else {
             //log.info("Jvmm trigger execution of 'setThreadContentionMonitoringEnabled', param:{}", enable);
         }
@@ -120,7 +119,7 @@ class DefaultJvmmExecutor implements JvmmExecutor {
         if (process.waitFor() != 0) {
             err.addAll(output);
             String errOutput = CommonUtil.join("\n", err);
-           // log.error("Execute command with exit value '{}'. {}. [{}]", process.exitValue(), errOutput, newCmd);
+            // log.error("Execute command with exit value '{}'. {}. [{}]", process.exitValue(), errOutput, newCmd);
             return PairKey.of(err, false);
         } else {
             return PairKey.of(output, true);

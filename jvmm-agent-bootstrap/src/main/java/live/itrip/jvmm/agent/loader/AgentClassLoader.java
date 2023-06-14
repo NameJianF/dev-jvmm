@@ -1,7 +1,5 @@
 package live.itrip.jvmm.agent.loader;
 
-import live.itrip.jvmm.agent.utils.StringUtils;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.MalformedURLException;
@@ -35,6 +33,7 @@ public class AgentClassLoader extends URLClassLoader {
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
+        // LOGGER.log(Level.INFO, "loadClass ---> " + name + ",class loader ---> " + getClass());
         try {
             return super.loadClass(name);
         } catch (ClassNotFoundException e) {
@@ -75,7 +74,8 @@ public class AgentClassLoader extends URLClassLoader {
                 for (int i = 0; i < files.length; i++) {
                     try {
                         url[i] = files[i].toURI().toURL();
-                        if (LOGGER.isLoggable(Level.FINE)) {
+                        // if (LOGGER.isLoggable(Level.FINE))
+                        {
                             LOGGER.log(Level.FINE, "jvmm client class loader load jar url: {0}", new Object[]{url[i]});
                         }
                     } catch (Throwable e) {
@@ -92,6 +92,20 @@ public class AgentClassLoader extends URLClassLoader {
     }
 
     private static String findRoot(String agentPath) {
-        return StringUtils.substringBeforeLast(agentPath, File.separator);
+        return substringBeforeLast(agentPath, File.separator);
+    }
+
+    private static String substringBeforeLast(String str, String separator) {
+        if (isEmpty(str) || isEmpty(separator)) {
+            return str;
+        }
+        int pos = str.lastIndexOf(separator);
+        if (pos == -1) {
+            return str;
+        }
+        return str.substring(0, pos);
+    }
+    private static boolean isEmpty(CharSequence cs) {
+        return (cs == null || cs.length() == 0);
     }
 }

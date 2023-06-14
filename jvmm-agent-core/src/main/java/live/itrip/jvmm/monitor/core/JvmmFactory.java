@@ -13,8 +13,6 @@ public class JvmmFactory {
 
     private static volatile JvmmCollector jvmmCollector = null;
     private static volatile JvmmExecutor jvmmExecutor = null;
-    private static volatile JvmmProfiler jvmmProfiler = null;
-
     public static JvmmCollector getCollector() {
         if (jvmmCollector == null) {
             synchronized (JvmmFactory.class) {
@@ -37,17 +35,5 @@ public class JvmmFactory {
             }
         }
         return jvmmExecutor;
-    }
-
-    public static JvmmProfiler getProfiler() {
-        if (jvmmProfiler == null) {
-            synchronized (JvmmFactory.class) {
-                if (jvmmProfiler == null) {
-                    jvmmProfiler = new DefaultJvmmProfiler();
-                }
-                return jvmmProfiler;
-            }
-        }
-        return jvmmProfiler;
     }
 }

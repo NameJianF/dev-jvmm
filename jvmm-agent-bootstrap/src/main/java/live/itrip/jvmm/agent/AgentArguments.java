@@ -1,93 +1,76 @@
 package live.itrip.jvmm.agent;
 
-import live.itrip.jvmm.agent.utils.StringUtils;
-
+import java.io.*;
 import java.lang.management.ManagementFactory;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * @author fengjianfeng
  * @date 2022/1/6
  * 功能描述: 启动参数解析
  */
-class AgentArguments {
+public class AgentArguments {
+    private static final Logger LOGGER = Logger.getLogger(AgentArguments.class.getCanonicalName());
+
     private static final String EMPTY_STRING = "";
-    /**
-     * 应用 namespace
-     */
-    private static final String DEFAULT_NAMESPACE = "default";
-    /**
-     * agent token
-     */
-    private static final String KEY_TOKEN = "token";
-    /**
-     * app name
-     */
-    private static final String KEY_APP_NAME = "-Djvmm.app.name";
-    /**
-     * agent 部署的环境
-     */
-    private static final String KEY_APP_ENV = "-Djvmm.app.env";
-    /**
-     * 注册中心地址IP
-     */
-    private static final String KEY_SERVER_ADDRESS = "-Djvmm.server.address";
+    private static final String LIB_FOLDER = File.separator + "lib";
+    private static final String AGENT_CLIENT_NAME = "jvmm-agent-bootstrap.jar";
+    public static final String AGENT_SPY_NAME = "jvmm-agent-spy.jar";
+    private String agentJarPath;
+    private String spyJarPath;
+    private String agentRootPath = null;
 
     /**
-     * 解析后的参数 KV
+     * 获取 jar 路径
      */
-    private static Map<String, String> featureMap = new LinkedHashMap<>(4);
+    public static AgentArguments analysisArguments(String launchModel) {
+        AgentArguments config = new AgentArguments();
 
-    public static Map<String, String> getFeatureMap() {
-        return featureMap;
-    }
-
-    public static String getToken() {
-        return featureMap.get(KEY_TOKEN);
-    }
-
-    public static String getAppName() {
-        return featureMap.get(KEY_APP_NAME);
-    }
-
-    public static String getEnv() {
-        return featureMap.get(KEY_APP_ENV);
-    }
-
-    public static String getServerAddress() {
-        return featureMap.get(KEY_SERVER_ADDRESS);
-    }
-
-    public static String printString() {
-        return String.format("Arguments ---> token[%s],appName[%s],env[%s],serverAddress[%s],"
-                , getToken(), getAppName(), getEnv(), getServerAddress());
-    }
-
-    /**
-     * 解析参数
-     */
-    public static void analysisArguments() {
-
-        List<String> featureString = ManagementFactory.getRuntimeMXBean().getInputArguments();
-
-        // 不对空字符串进行解析
-        if (featureString == null || featureString.size() == 0) {
-            return;
-        }
-
-        for (String kvPairSegmentString : featureString) {
-            if (StringUtils.isEmpty(kvPairSegmentString)) {
-                continue;
+        if (AgentLauncher.LAUNCH_MODE_AGENT.equalsIgnoreCase(launchModel)) {
+            // premain
+            List<String> args = ManagementFactory.getRuntimeMXBean().getInputArguments();
+            for (String arg : args) {
+                if (arg.startsWith("-javaagent:") && arg.contains(AGENT_CLIENT_NAME)) {
+                    config.setAgentRootPath(arg.replace("-javaagent:", "").replace(AGENT_CLIENT_NAME, ""));
+                    if (config.getAgentRootPath().endsWith("/")) {
+                        config.setAgentRootPath(config.getAgentRootPath().substring(0, config.getAgentRootPath().length() - 1));
+                    }
+                }
             }
-            final String[] kvSegmentArray = kvPairSegmentString.split("=");
-            if (kvSegmentArray.length != 2
-                    || StringUtils.isEmpty(kvSegmentArray[0])
-                    || StringUtils.isEmpty(kvSegmentArray[1])) {
-                continue;
-            }
-            featureMap.put(kvSegmentArray[0], kvSegmentArray[1]);
+        } else {
+            // attach
+            config.setAgentRootPath(System.getProperty("user.dir"));
         }
+        config.setAgentJarPath(config.getAgentRootPath() + File.separator + AGENT_CLIENT_NAME);
+        config.setSpyJarPath(config.getAgentRootPath() + File.separator + AGENT_SPY_NAME);
+
+        LOGGER.info("agentRootPath -> " + config.getAgentRootPath());
+        return config;
+    }
+
+    public String getAgentRootPath() {
+        return agentRootPath;
+    }
+
+    public void setAgentRootPath(String agentRootPath) {
+        this.agentRootPath = agentRootPath;
+    }
+
+    public String getAgentJarPath() {
+        return agentJarPath;
+    }
+
+    public void setAgentJarPath(String agentJarPath) {
+        this.agentJarPath = agentJarPath;
+    }
+
+    public void setSpyJarPath(String spyJarPath) {
+        this.spyJarPath = spyJarPath;
+    }
+
+    public String getSpyJarPath() {
+        return this.spyJarPath;
     }
 }

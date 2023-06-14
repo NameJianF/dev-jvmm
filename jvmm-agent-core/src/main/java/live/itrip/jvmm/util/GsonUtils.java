@@ -5,6 +5,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import live.itrip.jvmm.json.JsonPath2;
 import live.itrip.jvmm.json.Parser;
+import live.itrip.jvmm.monitor.core.entity.dto.PatchDTO;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.Reader;
@@ -176,12 +177,22 @@ public class GsonUtils {
     public static <T> T fromJson(final String json, @NonNull final Class<T> type) {
         return fromJson(getGson(), json, type);
     }
+    /**
+     * Converts {@link String} to given type.
+     *
+     * @param json The json to convert.
+     * @return instance of type
+     */
+    public static <T> List<T> fromJson2List(final String json) {
+//        return fromJson(getGson(), json, type);
+        return GsonUtils.fromJson(json, new TypeToken<List<T>>() {}.getType());
+    }
 
     /**
      * Converts {@link String} to given type.
      *
      * @param json the json to convert.
-     * @param type type type json will be converted to.
+     * @param type type json will be converted to.
      * @return instance of type
      */
     public static <T> T fromJson(final String json, @NonNull final Type type) {
@@ -192,7 +203,7 @@ public class GsonUtils {
      * Converts {@link Reader} to given type.
      *
      * @param reader the reader to convert.
-     * @param type   type type json will be converted to.
+     * @param type  type json will be converted to.
      * @return instance of type
      */
     public static <T> T fromJson(@NonNull final Reader reader, @NonNull final Class<T> type) {
@@ -203,7 +214,7 @@ public class GsonUtils {
      * Converts {@link Reader} to given type.
      *
      * @param reader the reader to convert.
-     * @param type   type type json will be converted to.
+     * @param type  type json will be converted to.
      * @return instance of type
      */
     public static <T> T fromJson(@NonNull final Reader reader, @NonNull final Type type) {
@@ -239,7 +250,7 @@ public class GsonUtils {
      *
      * @param gson   The gson.
      * @param reader the reader to convert.
-     * @param type   type type json will be converted to.
+     * @param type  type json will be converted to.
      * @return instance of type
      */
     public static <T> T fromJson(@NonNull final Gson gson, final Reader reader, @NonNull final Class<T> type) {
@@ -251,7 +262,7 @@ public class GsonUtils {
      *
      * @param gson   The gson.
      * @param reader the reader to convert.
-     * @param type   type type json will be converted to.
+     * @param type  type json will be converted to.
      * @return instance of type
      */
     public static <T> T fromJson(@NonNull final Gson gson, final Reader reader, @NonNull final Type type) {

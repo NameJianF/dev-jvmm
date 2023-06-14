@@ -1,14 +1,11 @@
 package live.itrip.jvmm.agent;
 
-
 import live.itrip.jvmm.agent.loader.AgentClassLoader;
-import live.itrip.jvmm.agent.utils.JarFileUtils;
-import live.itrip.jvmm.agent.utils.ServiceUtils;
-import live.itrip.jvmm.agent.utils.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
+import java.util.function.Function;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,11 +22,12 @@ public final class AgentLauncher {
     /**
      * 启动模式: agent方式加载
      */
-    private static final String LAUNCH_MODE_AGENT = "agent";
+    public static final String LAUNCH_MODE_AGENT = "agent";
     /**
      * 启动模式: attach方式加载
      */
-    private static final String LAUNCH_MODE_ATTACH = "attach";
+    public static final String LAUNCH_MODE_ATTACH = "attach";
+    private static final String SERVER_MAIN_CLASS = "live.itrip.jvmm.service.Launcher";
     /**
      * 启动默认
      */
@@ -67,42 +65,38 @@ public final class AgentLauncher {
         }
     }
 
-
     private static synchronized void main(String args, final Instrumentation inst) {
-        // 参数解析
-        AgentArguments.analysisArguments();
+        LOGGER.info(" jvmm agent args ---> " + args);
 
-        // print args
-        LOGGER.info(AgentArguments.printString());
+        // load agent config
+        AgentArguments agentConfig = AgentArguments.analysisArguments(LAUNCH_MODE);
 
-        if (StringUtils.isNotEmpty(AgentArguments.getAppName())) {
-            // 初始化 agent loader
-            String agentJarPath = JarFileUtils.findJavaAgentPath();
-            String agentCorePath = JarFileUtils.findAgentCoreJarPath(AgentArguments.getEnv(), agentJarPath);
-            LOGGER.info(String.format("agentCorePath [%s], loader [%s] ", agentCorePath, AgentLauncher.class.getClassLoader()));
+        // 初始化 agent loader
+        LOGGER.info(" system class loader---> " + ClassLoader.getSystemClassLoader().getClass().getName());
 
-            LOGGER.info(" system class loader---> " + ClassLoader.getSystemClassLoader().getClass().getName());
+        // install spy
+        install(inst, agentConfig);
 
-            // install spy
-            install(inst);
+        // 统一为 AgentClassLoader 加载方式
+        ClassLoader classLoader = new AgentClassLoader(agentConfig.getAgentJarPath());
 
-            // 统一为 AgentClassLoader 加载方式
-            ClassLoader classLoader = new AgentClassLoader(agentJarPath);
+        LOGGER.info("start Agent server.");
+        bootServer(inst, classLoader, agentConfig.getAgentRootPath());
+    }
 
-            LOGGER.info("agent install service provider.");
-            ServiceUtils.load(classLoader);
-
-            // 设置/保存启动参数
-            ServiceUtils.getAgentContext().setInstrumentation(inst);
-            ServiceUtils.getAgentContext().setAppName(AgentArguments.getAppName());
-            ServiceUtils.getAgentContext().setToken(AgentArguments.getToken());
-            ServiceUtils.getAgentContext().setEnv(AgentArguments.getEnv());
-            ServiceUtils.getAgentContext().setServerAddress(AgentArguments.getServerAddress());
-
-            // 上报http server 地址、端口
-            ServiceUtils.getAgentContext().reportAgentAddress();
-        } else {
-            LOGGER.info("---> target app name (args) is null. <--- ");
+    private static void bootServer(Instrumentation inst, ClassLoader classLoader, String rootPath) {
+        try {
+            Class<?> bootClazz = classLoader.loadClass(SERVER_MAIN_CLASS);
+            Object boot = bootClazz.getMethod("getInstance", Instrumentation.class, String.class)
+                    .invoke(null, inst, rootPath);
+            Function<Object, Object> callback = o -> {
+                LOGGER.info("bootServer callback ---> " + o.toString());
+                return null;
+            };
+            bootClazz.getMethod("launch", Function.class)
+                    .invoke(boot, callback);
+        } catch (Throwable e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -111,13 +105,12 @@ public final class AgentLauncher {
      *
      * @param inst inst
      */
-    private static synchronized void install(final Instrumentation inst) {
+    private static synchronized void install(final Instrumentation inst, final AgentArguments agentConfig) {
+
         try {
             // SPY_JAR_PATH
-            final String spyJarPath = JarFileUtils.findAgentSpyJarPath(AgentArguments.getEnv(), JarFileUtils.findJavaAgentPath());
             // 将Spy注入到BootstrapClassLoader
-
-            inst.appendToBootstrapClassLoaderSearch(new JarFile(new File(spyJarPath)));
+            inst.appendToBootstrapClassLoaderSearch(new JarFile(new File(agentConfig.getSpyJarPath())));
 
             // CORE_JAR_PATH
 //            final String coreJarPath = FileUtils.findAgentCoreJarPath(AgentArguments.getEnv(), FileUtils.findJavaAgentPath());

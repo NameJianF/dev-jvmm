@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Premain-Class: live.itrip.jvmm.agent.AgentLauncher
+Agent-Class: live.itrip.jvmm.agent.AgentLauncher
 Implementation-Title: jvmm-agent
 Implementation-Version: 1.0
 Can-Redefine-Classes: true

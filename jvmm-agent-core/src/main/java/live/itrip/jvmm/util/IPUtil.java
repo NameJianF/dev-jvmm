@@ -1,7 +1,5 @@
 package live.itrip.jvmm.util;
 
-import live.itrip.jvmm.agent.utils.StringUtils;
-
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
