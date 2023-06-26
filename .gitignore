@@ -7,3 +7,5 @@
 /jvmm-agent-demo/jvmm-agent-demo.iml
 /jvmm-root.iml
 /out/
+/jvmm-agent-attach/target/
+/jvmm-agent-spy/target/

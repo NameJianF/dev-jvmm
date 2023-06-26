@@ -3,9 +3,6 @@ package live.itrip.jvmm.util;
 import com.google.common.base.Strings;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import live.itrip.jvmm.json.JsonPath2;
-import live.itrip.jvmm.json.Parser;
-import live.itrip.jvmm.monitor.core.entity.dto.PatchDTO;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.Reader;
@@ -32,38 +29,6 @@ public class GsonUtils {
 
     private GsonUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
-    }
-
-    /**
-     * get first element value as String
-     *
-     * @param json json
-     * @param expr json path expression
-     * @return list
-     */
-    public static List<JsonElement> readJsonElements(String json, String expr) {
-//        String json = "{'c':[{'v':5},{'v':51},{'v':52},{'c':{'v': 777}}], 'v':1}";
-//        Expression expression = new Parser().parseExpression("$.c..v");
-        JsonPath2.Expression expression = new Parser().parseExpression(expr);
-        return expression.exec(json);
-    }
-
-    /**
-     * get first element value as String
-     *
-     * @param json json
-     * @param expr json path expression
-     * @return string
-     */
-    public static String readAsString(String json, String expr) {
-//        String json = "{'c':[{'v':5},{'v':51},{'v':52},{'c':{'v': 777}}], 'v':1}";
-//        Expression expression = new Parser().parseExpression("$.c..v");
-        JsonPath2.Expression expression = new Parser().parseExpression(expr);
-        List<JsonElement> list = expression.exec(json);
-        if (list == null || list.size() == 0) {
-            return null;
-        }
-        return list.get(0).getAsString();
     }
 
     /**

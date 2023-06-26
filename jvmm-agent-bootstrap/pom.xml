@@ -15,6 +15,9 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<!--        <maven.deploy.skip>true</maven.deploy.skip>-->
+<!--        <maven.install.skip>true</maven.install.skip>-->
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <build>
@@ -39,6 +42,7 @@
                             <Can-Set-Native-Method-Prefix>false</Can-Set-Native-Method-Prefix>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                            <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
                         </manifestEntries>
                     </archive>
                 </configuration>
